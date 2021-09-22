@@ -1,6 +1,7 @@
 const nodemailer = require("nodemailer")
 const express = require("express")
 const bodyParser = require("body-parser")
+const path = require("path")
 require("dotenv").config()
 
 const app = express()
@@ -8,17 +9,18 @@ const app = express()
 app.use(bodyParser.json())
 
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(express.static("dist"))
 
-const route = express.Router()
+app.use(express.static("public"))
+app.use(express.static("contact"))
+
 const port = process.env.PORT || 5000
 
 app.get("/", (req, res) => {
-  res.render("index.html")
+  res.sendFile("/index.html")
 })
 
 app.get("/debug", (req, res) => {
-  res.render("/debug/index.html")
+  res.sendFile("index.html")
 })
 
 // POST route from contact form
@@ -52,7 +54,8 @@ app.post("/contact", (req, res) => {
       res.send("contact-failure") // Show a page indicating failure
     } else {
       console.log("No issues, Form submited")
-      res.render("contact-success") // Show a page indicating success
+
+      res.sendFile(path.join(__dirname, "contact", "index.html"))
     }
   })
 })
