@@ -16,11 +16,11 @@ app.use(express.static("contact"))
 const port = process.env.PORT || 5000
 
 app.get("/", (req, res) => {
-  res.sendFile("/index.html")
+  res.sendFile(path.join(__dirname, "public", "index.html"))
 })
 
 app.get("/debug", (req, res) => {
-  res.sendFile("index.html")
+  res.sendFile(path.join(__dirname, "public", "/debug/index.html"))
 })
 
 // POST route from contact form
